@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Now Playing</title>
+  <title>Teacher's Book - Audio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body,html{margin:0;height:100%;background:#111;display:flex;justify-content:center;align-items:center;}
-    audio{width:95%;max-width:800px;}
+    body,html{margin:0;height:100%;background:#f4f4f4;display:flex;justify-content:center;align-items:center;}
+    .container{background:white;padding:20px;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,0.2);text-align:center;max-width:90%;}
+    h1{font-size:1.8em;margin:0 0 20px;color:#333;}
+    audio{width:100%;outline:none;}
   </style>
 </head>
 <body>
-  <audio controls autoplay id="player">
-    <source id="source" src="" type="audio/mpeg">
-    Your browser doesn't support audio 😭
-  </audio>
+  <div class="container">
+    <h1>Now Playing</h1>
+    <audio controls autoplay id="player">
+      <source id="source" src="" type="audio/mpeg">
+      Your browser doesn't support audio 😭
+    </audio>
+  </div>
 
   <script>
-    const file = window.location.hash.substring(1);  // grabs the #chapter1.mp3 part
+    const file = window.location.hash.substring(1);
     if (file) {
       document.getElementById("source").src = file;
       document.getElementById("player").load();
+      document.querySelector("h1").innerText = "Chapter " + file.split(".")[0];
     }
   </script>
 </body>
