@@ -1,61 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Teacher's Book - Audio</title>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hieroglyphics Book</title>
   <style>
-    body,html{margin:0;height:100%;background:#0d0d0d;display:flex;justify-content:center;align-items:center;font-family:Arial,sans-serif;}
-    .box{background:#121212;padding:40px;border-radius:24px;box-shadow:0 20px 70px rgba(0,0,0,0.8);text-align:center;max-width:90%;color:#e0e0e0;}
-    h1{font-size:2.4em;margin:0 0 30px;font-weight:300;}
-    
-    /* THICC AUDIO BAR */
-    audio{width:100%;outline:none;height:70px;margin-top:20px;}
-    audio::-webkit-media-controls-panel {background-color:#1e1e1e;border-radius:12px;}
-    audio::-webkit-media-controls-timeline {height:18px !important;margin:0 15px;border-radius:9px;}
-    audio::-webkit-media-controls-current-time-display,
-    audio::-webkit-media-controls-time-remaining-display {font-size:16px;color:#fff;}
-    
-    /* Firefox thiccness */
-    audio::-moz-range-track {height:14px;border-radius:7px;background:#333;}
-    audio::-moz-range-progress {height:14px;border-radius:7px;background:#00b4d8;}
-    audio::-moz-range-thumb {height:24px;width:24px;border-radius:50%;background:#00b4d8;border:none;}
-    
-    .error {color:#ff6b6b;font-size:1.2em;margin-top:20px;}
+    body,html{margin:0;height:100%;background:#0a0a0a;display:flex;justify-content:center;align-items:center;font-family:system-ui,sans-serif;color:#eee;}
+    .container{background:#111;padding:40px 30px;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,0.6);text-align:center;max-width:95%;}
+    h1{font-size:1.8em;margin:0 0 8px;font-weight:400;}
+    h2{font-size:1.4em;margin:20px 0 30px;opacity:0.9;}
+    audio{width:100%;margin-top:20px;}
+
+    /* THICK EASY-TO-GRAB SEEK BAR - Chrome/Edge/Safari */
+    audio::-webkit-media-controls-timeline {
+      height:26px !important;
+      margin:12px 16px;
+      border-radius:13px;
+      padding:0;
+    }
+    audio::-webkit-media-controls-panel {
+      background:#1c1c1c;
+      border-radius:16px;
+      padding:8px 0;
+    }
+
+    /* Firefox */
+    audio::-moz-range-track {
+      height:20px;
+      border-radius:10px;
+      background:#333;
+    }
+    audio::-moz-range-progress {
+      height:20px;
+      border-radius:10px;
+      background:#00b4d8;
+    }
+    audio::-moz-range-thumb {
+      height:30px;
+      width:30px;
+      border-radius:50%;
+      background:#00b4d8;
+      border:none;
+    }
   </style>
 </head>
 <body>
-  <div class="box">
-    <h1 id="title">Loading…</h1>
-    <audio controls id="audio" preload="metadata"></audio>
-    <div id="error" class="error" style="display:none;">Your browser doesn't support audio 😭</div>
+  <div class="container">
+    <h1>Hieroglyphics Book</h1>
+    <h2 id="chapter">Loading…</h2>
+    <audio controls id="player" preload="metadata"></audio>
   </div>
 
   <script>
     const params = new URLSearchParams(location.search);
     const file = params.get("file") || "1.mp3";
-    const rawBase = "https://raw.githubusercontent.com/Sullsutt/Audio-Player/main/";
-    const audioUrl = rawBase + file;
+    const url = "https://raw.githubusercontent.com/Sullsutt/Audio-Player/main/" + file;
 
-    const audioEl = document.getElementById("audio");
-    const titleEl = document.getElementById("title");
-    const errorEl = document.getElementById("error");
+    const player = document.getElementById("player");
+    const chapter = document.getElementById("chapter");
 
-    audioEl.src = audioUrl;
-    titleEl.innerText = file.replace(".mp3", "").replaceAll("-", " ").replace(/\b\w/g, l => l.toUpperCase());
+    player.src = url;
+    chapter.textContent = file.replace(".mp3", "").replaceAll("-", " ").replace(/\b\w/g, c => c.toUpperCase());
 
-    // Fallback check
-    audioEl.addEventListener("loadedmetadata", () => {
-      if (!audioEl.canPlayType('audio/mpeg')) {
-        errorEl.style.display = "block";
-        titleEl.innerText = "Audio fallback error";
-      }
-    });
-
-    // File error
-    audioEl.addEventListener("error", () => {
-      titleEl.innerText = "File not found — check filename?";
-      errorEl.innerText = "Make sure " + file + " is uploaded to repo root.";
-      errorEl.style.display = "block";
+    player.addEventListener("error", () => {
+      chapter.textContent = "File not found — check the name";
     });
   </script>
 </body>
