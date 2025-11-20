@@ -29,7 +29,7 @@
   <script>
 const params = new URLSearchParams(location.search);
   const requestedFile = params.get("file");
-  const defaultFile = "1-4.mp3";        // ← change this only if your real default file has a different name
+  const defaultFile = "1.mp3";        // ← change this only if your real default file has a different name
   const fileToPlay = requestedFile || defaultFile;
 
   const url = "https://raw.githubusercontent.com/Sullsutt/Audio-Player/main/" + fileToPlay;
@@ -40,4 +40,5 @@ const params = new URLSearchParams(location.search);
   </script>
 </body>
 </html>
+
 
