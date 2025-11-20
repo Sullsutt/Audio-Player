@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Audio Player</title>
+  <title>Now Playing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body,html{margin:0;height:100%;background:#111;display:flex;justify-content:center;align-items:center;}
+    audio{width:95%;max-width:800px;}
+  </style>
 </head>
 <body>
-    <h2>Audio Player</h2>
-    <audio controls autoplay>
-        <source src="sandbox:/mnt/data/1.mp3" type="audio/mpeg">
-    </audio>
+  <audio controls autoplay id="player">
+    <source id="source" src="" type="audio/mpeg">
+    Your browser doesn't support audio 😭
+  </audio>
+
+  <script>
+    const file = window.location.hash.substring(1);  // grabs the #chapter1.mp3 part
+    if (file) {
+      document.getElementById("source").src = file;
+      document.getElementById("player").load();
+    }
+  </script>
 </body>
 </html>
