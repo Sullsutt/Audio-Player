@@ -4,69 +4,58 @@
   <title>Teacher's Book - Audio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body,html{margin:0;height:100%;background:#0d0d0d;display:flex;justify-content:center;align-items:center;}
+    body,html{margin:0;height:100%;background:#0d0d0d;display:flex;justify-content:center;align-items:center;font-family:Arial,sans-serif;}
     .box{background:#121212;padding:40px;border-radius:24px;box-shadow:0 20px 70px rgba(0,0,0,0.8);text-align:center;max-width:90%;color:#e0e0e0;}
     h1{font-size:2.4em;margin:0 0 30px;font-weight:300;}
     
-    /* THICC & BEAUTIFUL AUDIO PLAYER */
+    /* THICC AUDIO BAR */
     audio{width:100%;outline:none;height:70px;margin-top:20px;}
-    
-    /* WebKit browsers (Chrome, Safari, Edge) */
-    audio::-webkit-media-controls-panel {
-      background-color:#1e1e1e;
-      border-radius:12px;
-    }
-    audio::-webkit-media-controls-timeline {
-      height:18px !important;
-      margin:0 15px;
-      padding:0;
-      border-radius:9px;
-    }
+    audio::-webkit-media-controls-panel {background-color:#1e1e1e;border-radius:12px;}
+    audio::-webkit-media-controls-timeline {height:18px !important;margin:0 15px;border-radius:9px;}
     audio::-webkit-media-controls-current-time-display,
-    audio::-webkit-media-controls-time-remaining-display {
-      font-size:16px;
-      color:#fff;
-    }
+    audio::-webkit-media-controls-time-remaining-display {font-size:16px;color:#fff;}
     
-    /* Firefox */
-    audio::-moz-range-track {
-      height:14px;
-      border-radius:7px;
-      background:#333;
-    }
-    audio::-moz-range-progress {
-      height:14px;
-      border-radius:7px;
-      background:#00b4d8;
-    }
-    audio::-moz-range-thumb {
-      height:24px;
-      width:24px;
-      border-radius:50%;
-      background:#00b4d8;
-      border:none;
-    }
+    /* Firefox thiccness */
+    audio::-moz-range-track {height:14px;border-radius:7px;background:#333;}
+    audio::-moz-range-progress {height:14px;border-radius:7px;background:#00b4d8;}
+    audio::-moz-range-thumb {height:24px;width:24px;border-radius:50%;background:#00b4d8;border:none;}
+    
+    .error {color:#ff6b6b;font-size:1.2em;margin-top:20px;}
   </style>
 </head>
 <body>
   <div class="box">
     <h1 id="title">Loading…</h1>
-    <audio controls id="audio"></audio>
+    <audio controls id="audio" preload="metadata"></audio>
+    <div id="error" class="error" style="display:none;">Your browser doesn't support audio 😭</div>
   </div>
 
   <script>
     const params = new URLSearchParams(location.search);
     const file = params.get("file") || "1.mp3";
-
     const rawBase = "https://raw.githubusercontent.com/Sullsutt/Audio-Player/main/";
     const audioUrl = rawBase + file;
 
-    document.getElementById("audio").src = audioUrl;
-    document.getElementById("title").innerText = 
-      file.replace(".mp3", "").replaceAll("-", " ").replace(/\b\w/g, l => l.toUpperCase());
+    const audioEl = document.getElementById("audio");
+    const titleEl = document.getElementById("title");
+    const errorEl = document.getElementById("error");
 
-    document.getElementById("audio").addEventListener("error", () => {
-      document.getElementById("title").innerText = "File not found 😭";
+    audioEl.src = audioUrl;
+    titleEl.innerText = file.replace(".mp3", "").replaceAll("-", " ").replace(/\b\w/g, l => l.toUpperCase());
+
+    // Fallback check
+    audioEl.addEventListener("loadedmetadata", () => {
+      if (!audioEl.canPlayType('audio/mpeg')) {
+        errorEl.style.display = "block";
+        titleEl.innerText = "Audio fallback error";
+      }
+    });
+
+    // File error
+    audioEl.addEventListener("error", () => {
+      titleEl.innerText = "File not found — check filename?";
+      errorEl.innerText = "Make sure " + file + " is uploaded to repo root.";
+      errorEl.style.display = "block";
     });
   </script>
 </body>
