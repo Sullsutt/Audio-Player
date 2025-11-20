@@ -27,19 +27,17 @@
   </div>
 
   <script>
-    const params = new URLSearchParams(location.search);
-    const file = params.get("file") || "1.mp3";
-    const url = "https://raw.githubusercontent.com/Sullsutt/Audio-Player/main/" + file;
+const params = new URLSearchParams(location.search);
+  const requestedFile = params.get("file");
+  const defaultFile = "1-4.mp3";        // ← change this only if your real default file has a different name
+  const fileToPlay = requestedFile || defaultFile;
 
-    const player = document.getElementById("player");
-    const chapter = document.getElementById("chapter");
+  const url = "https://raw.githubusercontent.com/Sullsutt/Audio-Player/main/" + fileToPlay;
 
-    player.src = url;
-    chapter.textContent = file.replace(".mp3", "").replaceAll("-", " ").replace(/\b\w/g, c => c.toUpperCase());
-
-    player.addEventListener("error", () => {
-      chapter.textContent = "File not found — check the name";
-    });
+  document.getElementById("p").src = url;
+  document.getElementById("ch").textContent = 
+    fileToPlay.replace(".mp3","").replaceAll("-"," ").replace(/\b\w/g, c => c.toUpperCase());
   </script>
 </body>
 </html>
+
