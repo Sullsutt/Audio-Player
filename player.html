@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body,html{margin:0;height:100%;background:#0d0d0d;display:flex;justify-content:center;align-items:center;}
-    .box{background:#1a1a1a;padding:40px;border-radius:20px;box-shadow:0 20px 70px rgba(0,0,0,0.8);text-align:center;max-width:90%;color:e0e0e0;}
+    .box{background:#1a1a1a;padding:40px;border-radius:20px;box-shadow:0 20px 70px rgba(0,0,0,0.8);text-align:center;max-width:90%;color:#e0e0e0;}
     h1{font-size:2.2em;margin:0 0 30px;}
     audio{width:100%;outline:none;margin-top:20px;}
     audio::-webkit-media-controls-panel {background:#333;}
@@ -18,24 +18,26 @@
   </div>
 
   <script>
-    const params = new URLSearchParams(location.search);
-    const file = params.get("file") || "1.mp3";
+    // Read file from hash (after #) or default to 1.mp3
+    let file = location.hash ? location.hash.substring(1) : "1.mp3";
 
-    // YOUR REPO'S MAGIC RAW BASE (already set for Sullsutt/Audio-Player)
+    // Optional: ensure only 1,2,3,4 are allowed
+    const validFiles = ["1.mp3","2.mp3","3.mp3","4.mp3"];
+    if (!validFiles.includes(file)) file = "1.mp3";
+
     const rawBase = "https://raw.githubusercontent.com/Sullsutt/Audio-Player/main/";
     const audioUrl = rawBase + file;
 
-    document.getElementById("audio").src = audioUrl;
-    document.getElementById("title").innerText = 
-      file.replace(".mp3", "").replaceAll("-", " ").replace(/\b\w/g, l => l.toUpperCase());
+    const audioEl = document.getElementById("audio");
+    const titleEl = document.getElementById("title");
 
-    // Optional: show error if file doesn't exist
-    document.getElementById("audio").addEventListener("error", () => {
-      document.getElementById("title").innerText = "File not found 😭";
+    audioEl.src = audioUrl;
+    titleEl.innerText = file.replace(".mp3", "").replaceAll("-", " ").replace(/\b\w/g, l => l.toUpperCase());
+
+    // Show error if file doesn't exist
+    audioEl.addEventListener("error", () => {
+      titleEl.innerText = "File not found 😭";
     });
   </script>
 </body>
 </html>
-
-
-
