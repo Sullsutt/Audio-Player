@@ -23,15 +23,16 @@
     <h2 id="ch">Loading…</h2>
     <audio controls id="p" preload="metadata"></audio>
   </div>
-  <script>
-    const params = new URLSearchParams(location.search);
-    const requestedFile = params.get("file");
-    const defaultFile = "1.mp3";  // change if your default is different
-    const fileToPlay = requestedFile || defaultFile;
-    const url = "https://raw.githubusercontent.com/Sullsutt/Audio-Player/main/" + fileToPlay;
-    document.getElementById("p").src = url;
-    document.getElementById("ch").textContent = 
-      fileToPlay.replace(".mp3","").replaceAll("-"," ").replace(/\b\w/g, c => c.toUpperCase());
+  <script>const params = new URLSearchParams(location.search);
+const requestedFile = params.get("file");
+const defaultFile = "1.mp3";           // ← put any real file name here
+const fileToPlay = requestedFile || defaultFile;
+
+const url = "https://raw.githubusercontent.com/Sullsutt/Audio-Player/main/" + fileToPlay;
+
+document.getElementById("p").src = url;
+document.getElementById("ch").textContent = 
+  fileToPlay.replace(".mp3","").replaceAll("-"," ").replace(/\b\w/g,c=>c.toUpperCase());
   </script>
 </body>
 </html>
